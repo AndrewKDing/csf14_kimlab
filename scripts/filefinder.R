@@ -16,28 +16,29 @@ library(tidyverse)
 library(readxl)
 library(stringr)
 
-#dir_finder returns directories with desired cohort
+# dir_finder returns directories with desired cohort
 dir_finder <- function(pathname, cohort) {
   file_list <- list.dirs(path = pathname)
-  cohort_list <- grep(paste0(cohort), file_list, value=TRUE)
-  
-  #Not sure what the autogating folders are doing here
+  cohort_list <- grep(paste0(cohort), file_list, value = TRUE)
+
+  # Not sure what the autogating folders are doing here
   cohort_list <- as_tibble(cohort_list)
   cohort_list <- cohort_list %>%
     filter(!str_detect(value, ".autoGate"))
-  
+
   return(cohort_list)
 }
 
-#fthis should be used in the main script
+# fthis should be used in the main script
 lapply(cohort_list, list.files)
 
 # filename_extract pulls data from filename. It looks for date, an 8 digit string,
 # then looks for animal id, a 5 digit string.
-filename_extract <- 
+# returns a tibble with [animal id, date]
+filename_extract <- function(filenames) {
+  date <- str_extract(filenames[[1]], "\\d{8}")
+  animal_id <- str_extract(filenames[[1]], "\\d{5}")
 
-
-
-
-
+  df <- tibble(animal_id, date)
+}
 
