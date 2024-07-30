@@ -1,2 +1,3 @@
 # Exclude FCS files, they're huge
 data/raw
+.Rproj.user
