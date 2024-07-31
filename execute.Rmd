@@ -4,7 +4,7 @@ output: pdf_document
 date: "2024-07-31"
 
 params:
-  filepath: ./data/raw
+  filepath: data/raw
 ---
 
 ```{r setup, include=FALSE}
@@ -23,8 +23,8 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ```{r filenames}
 directories <- dir_finder(params$filepath, "CFR02")
-filenames <- filename_extract(directories)
-head(filenames, n=50)
+filenames <- list.files(directories[[1]])
+master <- filename_extract(filenames)
 
 ```
 

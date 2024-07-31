@@ -40,10 +40,10 @@ filename_extract <- function(filenames, format = NULL) {
     format <-  format
   }
   
-  date <- str_extract(filenames[[1]], "\\d{8}")
-  animal_id <- as.factor(str_extract(filenames[[1]], "\\d{5}"))
+  date <- str_extract(filenames, "\\d{8}")
+  animal_id <- as.factor(str_extract(filenames, "(?<=_)\\d{5}"))
 
-  df <- tibble(filenames[[1]], animal_id, date)
+  df <- tibble(filenames, animal_id, date)
   
   #convert the date into an actual date
   df <- df %>%
