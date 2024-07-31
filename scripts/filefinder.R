@@ -54,18 +54,25 @@ filename_extract <- function(filenames, format = NULL) {
 #datevar and idvar are the names of the variables in the id and lookup dataframes,
 # respectively. 
 
-#Specifies names of variables for idvar and datevar, expects variable names
-# to be the same
+#Specifies names of variables for idvar, datevar, and variable name for infection_date
 calculate_dpi <- function(ids_df, 
                           lookup_df,
                           idvar,
+                          inf_datevar,
                           datevar
                           ){
   
   #Only infection date is required from the lookup
   lookup_df <- lookup_df %>%
-    select(idvar, datevar)
+    select({{ idvar }}, {{ inf_datevar }})
   
   #Joining the dataframes
-  dpi_df <- left_join(ids_df, lookup_df, by=c(idvar, datevar))
+  dpi_df <- left_join(ids_df, lookup_df, by={{ idvar }})
+  
+  #calculate dpi
+  dpi_df <- dpi_df %>%
+    #Difftime takes the variable, doesn't do the evaluation that tidyverse does
+    mutate(dpi = difftime(dpi_df[[ datevar ]], dpi_df[[ inf_datevar ]], units = "days")) %>%
+    #get rid of "days" unit from difftime
+    mutate(dpi = as.numeric(dpi))
 }
