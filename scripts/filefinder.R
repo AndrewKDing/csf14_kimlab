@@ -29,9 +29,6 @@ dir_finder <- function(pathname, cohort) {
   return(cohort_list)
 }
 
-# this should be used in the main script
-lapply(cohort_list, list.files)
-
 # filename_extract pulls data from filename. It looks for date, an 8 digit string,
 # then looks for animal id, a 5 digit string.
 # returns a tibble with [filename, animal id, date]
@@ -62,7 +59,7 @@ filename_extract <- function(filenames, format = NULL) {
 calculate_dpi <- function(ids_df, 
                           lookup_df,
                           idvar,
-                          datevar,
+                          datevar
                           ){
   
   #Only infection date is required from the lookup
@@ -71,33 +68,4 @@ calculate_dpi <- function(ids_df,
   
   #Joining the dataframes
   dpi_df <- left_join(ids_df, lookup_df, by=c(idvar, datevar))
-}
-
-
-
-#really should be done in a main script and not in my function calls
-#Uses andradi's as a default
-if (is.null(datevar)){
-  datevar <- "date"
-} else {
-  datevar <- datevar
-}
-
-if (is.null(datevar2)){
-  datevar2 <- "Date_of_infection"
-} else {
-  datevar2 <- datevar2
-}
-
-#Uses andrad's id var convention as a default
-if (is.null(idvar)) {
-  idvar <- "animal_id"
-} else {
-  idvar <- idvar    
-}
-
-if (is.null(idvar2)) {
-  idvar2 <- "Animal_ID"
-} else{
-  idvar2 <- idvar
 }
